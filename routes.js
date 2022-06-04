@@ -1,5 +1,5 @@
 const axios = require("axios");
-const FtxClient = require("./api/ClientInst");
+const { FtxClient } = require("./api/ClientInst");
 
 module.exports = (app) => {
   var router = require("express").Router();
@@ -10,7 +10,8 @@ module.exports = (app) => {
     res.send(data.data);
   });
 
-  router.get("/bnb_buy", async (req, res) => {
+  router.post("/bnb_buy", async (req, res) => {
+    console.log(req.body);
     const quote_request = await ftxClient.requestQuote({
       fromCoin: "USD",
       toCoin: "BNB",

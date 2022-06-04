@@ -1,9 +1,9 @@
 const axios = require('axios')
 const hmacSHA256 = require('crypto-js/hmac-sha256')
-const sha256 = require('crypto-js/sha256')
+// const sha256 = require('crypto-js/sha256')
 const Hex = require('crypto-js/enc-hex')
 
-export class FtxClient {
+class FtxClient {
   constructor(apiKey, apiSecretKey, subaccount) {
     this.instance = axios.create({
       baseURL: "https://ftx.com/api/",
@@ -227,6 +227,7 @@ export class FtxClient {
   }
 }
 
+module.exports = { FtxClient };
 // test code
 // const market = 'BTC-0327'
 // const now = new Date().getTime() / 1000;

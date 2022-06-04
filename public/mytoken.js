@@ -116,13 +116,19 @@ const work = async () => {
   var rate = (output_usd / output_busd).toFixed(5);
 
   var state = { text: "Skip", symbol: 3 };
-
+  var trading_status;
   if (1 - rate >= 0.2) {
     state = { text: "Sell", symbol: 1 };
-    await axios.get("/bnb_sell");
+    trading_status = await axios.get("/bnb_sell");
+    if (trading_status === false) {
+      state.text = "Sell fail";
+    }
   } else if (1 - rate <= -0.2) {
     state = { text: "Buy", symbol: 2 };
-    await axios.get("/bnb_buy");
+    trading_status = await axios.post("/bnb_buy", output_usd / 2);
+    if (trading_status === false) {
+      state.text = "Buy fail";
+    }
   } else {
     state = { text: "Skip", symbol: 3 };
   }
