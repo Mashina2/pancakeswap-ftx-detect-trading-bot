@@ -1,4 +1,9 @@
-class FtxClient {
+const axios = require('axios')
+const hmacSHA256 = require('crypto-js/hmac-sha256')
+const sha256 = require('crypto-js/sha256')
+const Hex = require('crypto-js/enc-hex')
+
+export class FtxClient {
   constructor(apiKey, apiSecretKey, subaccount) {
     this.instance = axios.create({
       baseURL: "https://ftx.com/api/",
@@ -207,9 +212,20 @@ class FtxClient {
   getPositions(showAvgPrice = false) {
     return this._get("positions", { showAvgPrice });
   }
-}
 
-const ftxClient = new FtxClient("apiKey", "apiSecretKey", "subaccount");
+  requestQuote(params) {
+    return this._post(`otc/quotes`, params);
+  }
+
+  getQuoteStatus(quoteId, market) {
+    const suffix = market ? `?market=${market}` : '';
+    return this._get(`otc/quotes/${quoteId}${suffix}`);
+  }
+
+  acceptQuote(quoteId) {
+    return this._post(`otc/quotes/${quoteId}/accept`);
+  }
+}
 
 // test code
 // const market = 'BTC-0327'
