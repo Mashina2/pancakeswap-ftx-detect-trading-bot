@@ -115,22 +115,22 @@ const work = async () => {
   var output_usd = priceData.data.result.price;
   var rate = (output_usd / output_busd).toFixed(5);
 
-  var state = { text: "Skip", symbol: 3 };
+  var state = { text: "Skip", color: "black" };
   var trading_status;
   if (1 - rate >= 0.2) {
-    state = { text: "Sell", symbol: 1 };
+    state = { text: "Sell", color: "green" };
     trading_status = await axios.get("/bnb_sell");
     if (trading_status === false) {
-      state.text = "Sell fail";
+      state = { text: "Sell fail", color: "red" };
     }
   } else if (1 - rate <= -0.2) {
-    state = { text: "Buy", symbol: 2 };
-    trading_status = await axios.post("/bnb_buy", output_usd / 2);
+    state = { text: "Buy", color: 2 };
+    trading_status = await axios.post("/bnb_buy", {usd: output_usd / 2});
     if (trading_status === false) {
-      state.text = "Buy fail";
+      state = { text: "Buy fail", color: "cyan" };
     }
   } else {
-    state = { text: "Skip", symbol: 3 };
+    state = { text: "Skip", color: "black" };
   }
 
   $("#table-body").prepend(
@@ -140,7 +140,7 @@ const work = async () => {
       rate +
       "</td><td>" +
       (1 - rate).toFixed(5) +
-      "</td><td>" +
+      "</td><td style='color: "+state.color+"'>" +
       state.text +
       "</td></tr>"
   );

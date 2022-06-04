@@ -11,11 +11,10 @@ module.exports = (app) => {
   });
 
   router.post("/bnb_buy", async (req, res) => {
-    console.log(req.body);
     const quote_request = await ftxClient.requestQuote({
       fromCoin: "USD",
       toCoin: "BNB",
-      size: 0.5,
+      size: req.body.usd
     });
 
     console.log(quote_request);
