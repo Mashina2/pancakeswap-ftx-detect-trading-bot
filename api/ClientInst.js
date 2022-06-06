@@ -4,15 +4,14 @@ const hmacSHA256 = require('crypto-js/hmac-sha256')
 const Hex = require('crypto-js/enc-hex')
 
 class FtxClient {
-  constructor(apiKey, apiSecretKey, subaccount) {
+  constructor(apiKey, apiSecretKey) {
     this.instance = axios.create({
       baseURL: "https://ftx.com/api/",
       timeout: 5000,
       headers: {
         accept: "application/json",
         "Content-Type": "application/json; utf-8",
-        "FTX-KEY": apiKey,
-        "FTX-SUBACCOUNT": subaccount,
+        "FTX-KEY": apiKey
       },
     });
 
@@ -52,21 +51,21 @@ class FtxClient {
     return this.instance
       .get(endpoint, { params })
       .then((res) => console.log(res.data))
-      .catch((e) => console.log(e.toJSON()));
+      .catch((e) => console.log(e));
   }
 
   _delete(endpoint, params = {}) {
     return this.instance
       .delete(endpoint, { params })
       .then((res) => console.log(res.data))
-      .catch((e) => console.log(e.toJSON()));
+      .catch((e) => console.log(e));
   }
 
   _post(endpoint, data = {}) {
     return this.instance
       .post(endpoint, data)
       .then((res) => console.log(res.data))
-      .catch((e) => console.log(e.toJSON()));
+      .catch((e) => console.log(e));
   }
 
   listFutures() {

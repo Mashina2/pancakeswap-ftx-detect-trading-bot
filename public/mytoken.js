@@ -82,7 +82,7 @@ const start = () => {
   work();
   interValueSet = setInterval(() => {
     work();
-  }, 60000);
+  }, 6000);
 };
 
 const stop = () => {
@@ -123,7 +123,7 @@ const work = async () => {
     if (trading_status === false) {
       state = { text: "Sell fail", color: "red" };
     }
-  } else if (1 - rate <= -0.2) {
+  } else if (1 - rate <= 0.2) {
     state = { text: "Buy", color: 2 };
     trading_status = await axios.post("/bnb_buy", {usd: output_usd / 2});
     if (trading_status === false) {
@@ -145,3 +145,11 @@ const work = async () => {
       "</td></tr>"
   );
 };
+
+const setAmount = () => {
+  alert();
+}
+
+const setTime = () => {
+  alert();
+}
